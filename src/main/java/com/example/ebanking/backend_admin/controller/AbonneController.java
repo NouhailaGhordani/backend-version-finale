@@ -27,6 +27,7 @@ public class AbonneController {
             Abonne savedAbonne = abonneRepository.save(abonne);
             return ResponseEntity.created(URI.create("/api/abonnes/" + savedAbonne.getId())).body(savedAbonne);
         } catch (Exception e) {
+            e.printStackTrace();  // Affiche l'erreur complète dans la console
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erreur lors de la création de l'abonné", e);
         }
     }
