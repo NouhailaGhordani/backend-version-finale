@@ -50,6 +50,7 @@ public class Compte {
     @JoinColumn(name = "client_id", nullable = false)
     @JsonBackReference
     private Client client;
+    //hahowa kin hna
 
     @PrePersist
     public void generateNumeroCompteEtRib() {
