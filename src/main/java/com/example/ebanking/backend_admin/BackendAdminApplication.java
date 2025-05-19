@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class BackendAdminApplication {
-// tttttttttttttttttttt
+
 	public static void main(String[] args) {
 		SpringApplication.run(BackendAdminApplication.class, args);
 	}

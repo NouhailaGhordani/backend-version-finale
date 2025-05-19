@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "compte")
@@ -16,8 +17,14 @@ public class Compte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "numero_compte", unique = true, length = 20)
+    @Column(name = "numero_compte", unique = true, nullable = false)
     private String numeroCompte;
+
+    @PrePersist
+    public void generateNumeroCompte() {
+        this.numeroCompte = UUID.randomUUID().toString().substring(0, 12); // ou toute autre logique
+    }
+
 
     @Column(name = "intitule", length = 100)
     private String intitule;
