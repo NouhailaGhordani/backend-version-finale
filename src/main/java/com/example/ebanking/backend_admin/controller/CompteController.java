@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-// HA HUWA COMPTE 
+// HA HUWA COMPTE
 @RestController
 @RequestMapping("/api/comptes")
 public class CompteController {
@@ -24,6 +24,12 @@ public class CompteController {
     @GetMapping
     public ResponseEntity<List<Compte>> getAllComptes() {
         List<Compte> comptes = compteRepository.findAll();
+        return ResponseEntity.ok(comptes);
+    }
+    // Récupérer les comptes d'un client spécifique
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<Compte>> getComptesByClient(@PathVariable Long clientId) {
+        List<Compte> comptes = compteRepository.findByClientId(clientId);
         return ResponseEntity.ok(comptes);
     }
 
@@ -50,10 +56,29 @@ public class CompteController {
         }
     }
 
-    // Récupérer les comptes d'un client spécifique
-    @GetMapping("/client/{clientId}")
-    public ResponseEntity<List<Compte>> getComptesByClient(@PathVariable Long clientId) {
-        List<Compte> comptes = compteRepository.findByClientId(clientId);
-        return ResponseEntity.ok(comptes);
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Compte> updateCompte(@PathVariable Long id, @RequestBody Compte compteModifie) {
+        return compteRepository.findById(id).map(compte -> {
+            compte.setNumeroCompte(compteModifie.getNumeroCompte());
+            compte.setIntitule(compteModifie.getIntitule());
+            compte.setCodeAgence(compteModifie.getCodeAgence());
+            compte.setCodeBanque(compteModifie.getCodeBanque());
+            compte.setRib(compteModifie.getRib());
+            compte.setVirementAutorise(compteModifie.isVirementAutorise());
+            compte.setDemandeServiceAutorisee(compteModifie.isDemandeServiceAutorisee());
+            compte.setRemiseOrdreAutorisee(compteModifie.isRemiseOrdreAutorisee());
+            compte.setConsultationAutorisee(compteModifie.isConsultationAutorisee());
+            return ResponseEntity.ok(compteRepository.save(compte));
+        }).orElse(ResponseEntity.notFound().build());
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCompte(@PathVariable Long id) {
+        return compteRepository.findById(id).map(compte -> {
+            compteRepository.delete(compte);
+            return ResponseEntity.ok().build();
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+
 }
