@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-
+// HA HUWA CLIENT
 @RestController
 @RequestMapping("/api/clients")
 @CrossOrigin(origins = "http://localhost:3000")  // Autorise React sur ce domaine
