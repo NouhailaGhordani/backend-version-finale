@@ -83,4 +83,11 @@ public class AbonneController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Abonné non trouvé");
         }
     }
+    // AbonneController.java
+    @GetMapping("/count")
+    public ResponseEntity<Long> getAbonneCount() {
+        long abonneCount = abonneRepository.count();
+        return ResponseEntity.ok(abonneCount);
+    }
+
 }

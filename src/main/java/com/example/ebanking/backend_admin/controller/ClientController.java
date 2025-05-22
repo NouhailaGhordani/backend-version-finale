@@ -1,7 +1,9 @@
 package com.example.ebanking.backend_admin.controller;
 
+import com.example.ebanking.backend_admin.dto.ClientGrowthDto;
 import com.example.ebanking.backend_admin.model.Client;
 import com.example.ebanking.backend_admin.repository.ClientRepository;
+import com.example.ebanking.backend_admin.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class ClientController {
 
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private ClientService clientService;
 
     // Récupérer la liste des clients
     @GetMapping
@@ -73,7 +77,24 @@ public class ClientController {
             return ResponseEntity.notFound().build();
         }
     }
+    // ClientController.java
+    @GetMapping("/count")
+    public ResponseEntity<Long> getClientCount() {
+        long clientCount = clientRepository.count();
+        return ResponseEntity.ok(clientCount);
+    }
 
+    // Récupérer la croissance des clients
+    @GetMapping("/growth")
+    public ResponseEntity<List<ClientGrowthDto>> getClientGrowth() {
+        List<ClientGrowthDto> growth = clientService.getClientGrowth();  // Appel au service
+        return ResponseEntity.ok(growth);
+    }
 
-
+    // Récupérer les clients récents
+    @GetMapping("/recents")
+    public ResponseEntity<List<Client>> getRecentClients() {
+        List<Client> recentClients = clientService.getRecentClients();  // Appel au service
+        return ResponseEntity.ok(recentClients);
+    }
 }

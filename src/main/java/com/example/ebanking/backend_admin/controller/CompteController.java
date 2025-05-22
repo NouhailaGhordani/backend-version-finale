@@ -79,6 +79,16 @@ public class CompteController {
             return ResponseEntity.ok().build();
         }).orElse(ResponseEntity.notFound().build());
     }
+    // ClientController.java
+    // CompteController.java
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCompteCount() {
+        long compteCount = compteRepository.count();
+        return ResponseEntity.ok(compteCount);
+
+    }
+
+
 
 
 }
